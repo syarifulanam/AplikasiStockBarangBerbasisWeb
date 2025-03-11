@@ -15,6 +15,16 @@ require 'cek.php';
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        .zoomable {
+            width: 200px;
+        }
+
+        .zoomable:hover {
+            transform: scale(2.5);
+            transition: 0.3s ease;
+        }
+    </style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -41,7 +51,7 @@ require 'cek.php';
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Barang Keluar
                         </a>
-                        <a class="nav-link" href="admin.php">
+                        <a class="nav-link" href="keluar.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Kelola Admin
                         </a>
@@ -65,7 +75,7 @@ require 'cek.php';
                             <div class="modal fade" id="modalAddBarang">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        <form method="post">
+                                        <form method="post" enctype="multipart/form-data">
                                             <!-- Modal Header -->
                                             <div class="modal-header">
                                                 <h4 class="modal-title">Add Barang</h4>
@@ -84,6 +94,10 @@ require 'cek.php';
                                                 <div class="mb-3">
                                                     <label class="form-label">Stock</label>
                                                     <input type="number" name="stock" class="form-control" placeholder="masukan stock" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Gambar Barang</label>
+                                                    <input type="file" name="file" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -119,6 +133,7 @@ require 'cek.php';
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Gambar</th>
                                         <th>ID Barang</th>
                                         <th>Nama Barang</th>
                                         <th>Deskripsi</th>
@@ -136,9 +151,19 @@ require 'cek.php';
                                         $deskripsi = $data['deskripsi'];
                                         $stock = $data['stock'];
                                         $idb = $data['idbarang'];
+
+                                        //cek ada gambar atau tidak
+                                        $gambar = $data['image']; //ambil gambar
+                                        if ($gambar == null) {
+                                            $img = 'No Photo';
+                                        } else {
+                                            $img = '<img src="images/' . $gambar . '" class="zoomable">';
+                                        }
+
                                     ?>
                                         <tr>
                                             <td><?= $i++; ?></td>
+                                            <td><?= $img; ?></td>
                                             <td><?= $idb; ?></td>
                                             <td><?= $namabarang; ?></td>
                                             <td><?= $deskripsi; ?></td>
@@ -154,7 +179,7 @@ require 'cek.php';
                                         <div class="modal fade" id="edit<?= $idb; ?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form method="post">
+                                                    <form method="post" enctype="multipart/form-data">
                                                         <!-- Modal Header -->
                                                         <div class="modal-header">
                                                             <h4 class="modal-title">Edit Barang</h4>
@@ -170,6 +195,8 @@ require 'cek.php';
                                                                 <label class="form-label">Deskripsi Barang</label>
                                                                 <input type="text" name="deskripsi" value="<?= $deskripsi; ?>" class="form-control" placeholder="masukan deskripsi barang" required>
                                                             </div>
+                                                            <input type="file" name="file" class="form-control">
+                                                            <br>
                                                             <input type="hidden" name="idb" value="<?= $idb; ?>">
                                                         </div>
                                                         <div class="modal-footer">
@@ -199,7 +226,7 @@ require 'cek.php';
                                                         <!-- Modal Footer -->
                                                         <div class="modal-footer">
                                                             <button class="btn btn-primary" data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-danger" name="hapusbarangkeluar">Hapus</button>
+                                                            <button type="submit" class="btn btn-danger" name="hapusbarang">Hapus</button>
                                                         </div>
                                                     </form>
                                                 </div>

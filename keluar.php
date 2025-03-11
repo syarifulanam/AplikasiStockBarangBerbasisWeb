@@ -15,6 +15,16 @@ require 'cek.php';
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        .zoomable {
+            width: 200px;
+        }
+
+        .zoomable:hover {
+            transform: scale(2.5);
+            transition: 0.3s ease;
+        }
+    </style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -71,6 +81,7 @@ require 'cek.php';
                                 <thead>
                                     <tr>
                                         <th>Tanggal</th>
+                                        <th>Gambar</th>
                                         <th>Nama Barang</th>
                                         <th>Jumlah</th>
                                         <th>Penerima</th>
@@ -89,9 +100,18 @@ require 'cek.php';
                                         $qty = $data['qty'];
                                         $penerima = $data['penerima'];
 
+                                        //cek ada gambar atau tidak
+                                        $gambar = $data['image']; //ambil gambar
+                                        if ($gambar == null) {
+                                            $img = 'No Photo';
+                                        } else {
+                                            $img = '<img src="images/' . $gambar . '" class="zoomable">';
+                                        }
+
                                     ?>
                                         <tr>
                                             <td><?= $tanggal; ?></td>
+                                            <td><?= $img; ?></td>
                                             <td><?= $namabarang; ?></td>
                                             <td><?= $qty; ?></td>
                                             <td><?= $penerima; ?></td>
