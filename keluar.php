@@ -17,12 +17,18 @@ require 'cek.php';
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <style>
         .zoomable {
-            width: 200px;
+            width: 50px;
+            height: 50px;
         }
 
         .zoomable:hover {
-            transform: scale(2.5);
+            transform: scale(4);
             transition: 0.3s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
         }
     </style>
 </head>
@@ -30,7 +36,7 @@ require 'cek.php';
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.php">Store Lab</a>
+        <a class="navbar-brand ps-3" href="index.php">Stock@</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     </nav>

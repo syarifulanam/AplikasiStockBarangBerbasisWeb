@@ -75,8 +75,10 @@ if (isset($_POST['addnewbarang'])) {
 //Menambahkan barang masuk
 if (isset($_POST['barangmasuk'])) {
     $idb = $_POST['idbarang'];
-    $penerima = $_POST['penerima'];
+    $keterangan = $_POST['keterangan'];
     $qty = $_POST['qty'];
+    $tanggal = date('Y-m-d'); // Simpan tanggal hari ini
+
 
     $cekstocksekarang = mysqli_query($conn, "select * from stock where idbarang='$idb'");
     $ambildatanya = mysqli_fetch_array($cekstocksekarang);
@@ -84,16 +86,13 @@ if (isset($_POST['barangmasuk'])) {
     $stocksekarang = $ambildatanya['stock'];
     $tambahkanstocksekarangdenganquantity = $stocksekarang + $qty;
 
-    $addtomasuk = mysqli_query($conn, "insert into masuk (idbarang, keterangan, qty) values('$idb','$penerima', '$qty')");
-    $updatestockmasuk = mysqli_query($conn, "update stock set stock='$tambahkanstocksekarangdenganquantity' where idbarang='$idb'");
+    $addtomasuk = mysqli_query($conn, "INSERT INTO masuk (idbarang, qty, keterangan, tanggal) VALUES ('$idb', '$qty', '$keterangan', '$tanggal')");
+    $updatestockmasuk = mysqli_query($conn, "UPDATE stock SET stock = stock + $qty WHERE idbarang = '$idb'");
 
-    if ($addtokeluar && $updatestockkeluar) {
-        header('location: masuk.php');
-        exit();
+    if ($addtomasuk && $updatestockmasuk) {
+        echo "<script>alert('Barang masuk berhasil ditambahkan!'); window.location.href='masuk.php';</script>";
     } else {
-        echo 'gagal';
-        header('location: masuk.php');
-        exit();
+        echo "<script>alert('Gagal menambahkan barang masuk!');</script>";
     }
 }
 

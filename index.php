@@ -1,6 +1,7 @@
 <?php
 require 'function.php';
 require 'cek.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,18 +12,24 @@ require 'cek.php';
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Stock Barang</title>
+    <title>Stock - Stock Barang</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <style>
         .zoomable {
-            width: 200px;
+            width: 50px;
+            height: 50px;
         }
 
         .zoomable:hover {
-            transform: scale(2.5);
+            transform: scale(4);
             transition: 0.3s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
         }
     </style>
 </head>
@@ -30,7 +37,7 @@ require 'cek.php';
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.php">Store Lab</a>
+        <a class="navbar-brand ps-3" href="index.php">Stoke@</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     </nav>
@@ -165,7 +172,7 @@ require 'cek.php';
                                             <td><?= $i++; ?></td>
                                             <td><?= $img; ?></td>
                                             <td><?= $idb; ?></td>
-                                            <td><?= $namabarang; ?></td>
+                                            <td><strong><a href="detail.php?=$idb;?>"><?= $namabarang; ?></a></strong></td>
                                             <td><?= $deskripsi; ?></td>
                                             <td><?= $stock; ?></td>
                                             <td>

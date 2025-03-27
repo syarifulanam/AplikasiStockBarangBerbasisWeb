@@ -17,12 +17,18 @@ require 'cek.php';
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <style>
         .zoomable {
-            width: 200px;
+            width: 50px;
+            height: 50px;
         }
 
         .zoomable:hover {
-            transform: scale(2.5);
+            transform: scale(4);
             transition: 0.3s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
         }
     </style>
 </head>
@@ -30,7 +36,7 @@ require 'cek.php';
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.php">Store Lab</a>
+        <a class="navbar-brand ps-3" href="index.php">Stock@</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     </nav>
@@ -70,8 +76,18 @@ require 'cek.php';
                     <div class="card mb-4">
                         <div class="card-header">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                                Tambah Barang
+                                Tambah Barang Masuk
                             </button>
+                            <br>
+                            <div class="row mt-4">
+                                <div class="col-auto">
+                                    <form method="post" class="form-inline">
+                                        <input type="date" name="tgl_mulai" class="form-control ml-3">
+                                        <input type="date" name="tgl_selesai" class="form-control">
+                                        <button type="submit" name="filter_tgl" class="btn btn-info">Filter</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table class="table table-striped table-hover table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -89,7 +105,23 @@ require 'cek.php';
                                 <tbody>
 
                                     <?php
-                                    $ambilsemuadatastock = mysqli_query($conn, "SELECT * FROM masuk m, stock s where s.idbarang = m.idbarang");
+
+                                    if (isset($_POST['filter_tgl'])) {
+                                        $mulai = $_POST['tgl_mulai'];
+                                        $selesai = $_POST['tgl_selesai'];
+
+                                        if($mulai=null || $selesai=null){
+                                            
+                                        }
+
+                                        $ambilsemuadatastock = mysqli_query($conn, "SELECT * FROM masuk m, stock s, login l  
+                                        WHERE s.idbarang = m.idbarang AND m.iduser = l.iduser 
+                                        AND tanggal BETWEEN '$mulai' AND DATE_ADD('$selesai', INTERVAL 1 DAY) 
+                                        ORDER BY idmasuk DESC");
+                                    } else {
+                                        $ambilsemuadatastock = mysqli_query($conn, "SELECT * FROM masuk m, stock s, login l  where s.idbarang = m.idbarang and m.iduser order by idmasuk DESC");
+                                    }
+
                                     while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
                                         $idb = $data['idbarang'];
                                         $idm = $data['idmasuk'];
@@ -100,7 +132,7 @@ require 'cek.php';
 
                                         //cek ada gambar atau tidak
                                         $gambar = $data['image']; //ambil gambar
-                                        if ($gambar == null) {
+                                        if (empty($gambar)) {
                                             $img = 'No Photo';
                                         } else {
                                             $img = '<img src="images/' . $gambar . '" class="zoomable">';
@@ -144,11 +176,11 @@ require 'cek.php';
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label class="form-label">Keterangan</label>
-                                                                <input type="text" name="deskripsi" value="<?= $keterangan; ?>" class="form-control" required>
+                                                                <input type="text" name="keterangan" value="<?= $keterangan; ?>" class="form-control" required>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label class="form-label">Quantity</label>
-                                                                <input type="text" name="deskripsi" value="<?= $qty; ?>" class="form-control" required>
+                                                                <input type="number" name="qty" value="<?= $qty; ?>" class="form-control" required>
                                                             </div>
                                                             <br />
                                                             <input type="hidden" name="idb" value="<?= $idb; ?>">
